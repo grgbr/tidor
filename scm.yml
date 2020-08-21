@@ -152,6 +152,11 @@ nlink:
         uri:       git@github.com:grgbr/nlink.git
         destdir:   src/nlink
 
+nwif:
+        type:      git
+        uri:       git@github.com:grgbr/nwif.git
+        destdir:   src/nwif
+
 readline:
         type:      git
         uri:       https://git.savannah.gnu.org/git/readline.git

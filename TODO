@@ -1,0 +1,93 @@
+Services:
+=========
+1. gateway / route
+2. firewall
+3. dhcpd
+4. dnsd
+5. hwclock / rtc
+6. ntp
+7. ntpdate
+?. ptp / sys enslave
+?. monitoring box internet
+?. mcroute
+?. wifi / hostapd / arp proxy
+?. stats
+?. multi homing
+?. qos
+?. vpn
+?. ssh
+?. proxy http / parental control
+
+Gateway / route:
+================
+1. iface:
+   1. ucast / subnet / bcast @
+      kern name
+      oper state
+      type
+   2. name
+   3. mtu
+2. route:
+   1. default
+   2. lan / wlan
+   3. other props ?
+3. phy:
+   1. autoneg /advert
+   2. carrier
+   3. pause
+   4. fixed settings speed / duplex / mdix...
+   5. port
+   6. other props ?
+
+Packages:
+=========
+
+ntp
+openssh
+openssl
+nftables
+isc-dhcp
+isc-bind / unbound ?
+u-boot
+tzdata
+
+hostapd
+libnetfilter_conntrack ?
+libnfnetlink ?
+libpcap ?
+lzo ?
+smcroute
+squashfs ?
+
+ext4 fs:
+========
+
+Ext4 minimum complete tutorial :)
+https://metebalci.com/blog/a-minimum-complete-tutorial-of-linux-ext4-file-system/
+
+SSDs / alignment:
+https://thelastmaimou.wordpress.com/2013/05/04/magic-soup-ext4-with-ssd-stripes-and-strides/
+https://tytso.livejournal.com/2009/02/20/
+https://docs.salixos.org/wiki/How_to_Tune_an_SSD
+https://wiki.debian.org/SSDOptimization
+https://searchdatacenter.techtarget.com/tip/Optimizing-Linux-for-SSD-usage
+
+ext4 block group dimensioning and alignments:
+https://altechnative.net/disk-and-file-system-optimisation/
+
+MMC kernel attributes:
+https://www.kernel.org/doc/Documentation/mmc/mmc-dev-attrs.txt
+
+blockdev --setro <root partition device>
+fstrim !!
+set optimal flex_bg group size (mke2fs -G) ?
+set optimal extent / block group size (mke2fs -g) ?
+echo xx > /sys/block/<mmcblk0/device/queue_depth
+setup dealine iosched per partition/device
+disable mmc device hardware cache (mmc-utils ?)
+setup commit= at mounting time for mmc
+setup ext4 hash type (half_md4 / tea ....)
+run e4defrag in a cron job
+run e2fsck with fs optim and badblock testing in maintenance mode / crontab
+run fstrim --minimum <erase block (group ?) size> /mntpt once a week
+support for online ext4 fsck using e2scrub with LVM snapshoting

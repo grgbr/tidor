@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+tty="/dev/$(basename $PWD)"
+
+exec /sbin/getty -L 0 "$tty" "$TERM" <"$tty" >"$tty" 2>&1

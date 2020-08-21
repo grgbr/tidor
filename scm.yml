@@ -1,0 +1,189 @@
+################################################################################
+# scm.py utility configuration file.
+# 
+# Content is YAML structured according to the following rules:
+# - define a repository using a dictionary entry
+# - for each repository, define a set of properties using nested dictionary
+#   entries described below.
+#
+# Repository properties vary with the type of SCM it relates to. Supported
+# repository type:
+# * git
+# * subversion
+#
+# Git related properties:
+# -----------------------
+#
+# «type»:     the type of SCM for this repository, use «git» for git...
+# «uri»:      remote repository URL
+# «destdir»:  path to directory under which the local working copy will be
+#             fetched into ; the path will be relative to the «--rootdir»
+#             option given on the command line
+# «origin»:   the name to give to the remote at initial cloning time ; optional,
+#             defaults to «origin»
+# «branch»:   the initial remote branch (head) to clone ; optional, defaults
+#             to the remote default one
+# «revision»: the initial head / tag / sha1 to checkout ; optional,
+#             defaults to none.
+#
+# A few words about the «origin» property. The name is assigned to the local
+# remote at cloning time (see git remote command).
+# If, during local working copy life cycle, you switch to another branch / tag /
+# sha1, scm.py will use the remote assigned to the given local branch (or none
+# in case of detached head).
+# 
+# A few words about the «revision» property. If specified, after cloning, the
+# given remote branch / tag / sha1 will be checked out and current local branch
+# will be in detached head state. Revision may specify either:
+# * a SHA1: «e0c51bdb9339719d94d96211f255d3ba8bbce3ca» (or abbreviated form)
+# * or a tag: «testtag»
+# * or a remote branch head: «mydevbranch»
+# 
+# «branch» and «revision» keywords are exclusive.
+# 
+#
+# Subversion related properties:
+# ------------------------------
+#
+# «type»:     the type of SCM for this repository, use «svn» for Subversion...
+# «uri»:      remote repository / trunk / branch / tag URL
+# «destdir»:  path to directory under which the local working copy will be
+#             fetched into ; the path will be relative to the «--rootdir»
+#             option given on the command line
+# «revision»: the initial revision number to checkout ; optional,
+#             defaults to none.
+#
+# A few words about the «revision» property. If specified, after initial
+# checkout, the given remote revision will be checked out and current local
+# branch will be in detached head state.
+#
+################################################################################
+
+btrace:
+        type:      git
+        uri:       git@github.com:grgbr/btrace.git
+        destdir:   src/btrace
+        
+busybox:
+        type:      git
+        uri:       https://git.busybox.net/busybox
+        branch:    1_32_stable
+        destdir:   src/busybox
+
+crafter:
+        type:      git
+        uri:       git@github.com:grgbr/crafter.git
+        destdir:   src/crafter
+
+e2fsprogs:
+        type:      git
+        uri:       git://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git
+        revision:  v1.45.6
+        destdir:   src/e2fsprogs
+
+ebuild:
+        type:      git
+        uri:       git@github.com:grgbr/ebuild.git
+        destdir:   src/ebuild
+
+elfutils:
+        type:      git
+        uri:       git@github.com:grgbr/elfutils.git
+        origin:    github
+        branch:    cross-0.179
+        destdir:   src/elfutils
+        
+ethtool:
+        type:      git
+        uri:       git@github.com:grgbr/ethtool.git
+        origin:    github
+        branch:    cross-v5.4
+        destdir:   src/ethtool
+        
+iana_etc:
+        type:      git
+        uri:       git@github.com:grgbr/iana_etc.git
+        destdir:   src/iana_etc
+
+kvstore:
+        type:      git
+        uri:       git@github.com:grgbr/kvstore.git
+        destdir:   src/kvstore
+
+libdb:
+        type:      git
+        uri:       https://github.com/berkeleydb/libdb.git
+        revision:  v5.3.28
+        destdir:   src/libdb
+
+libmnl:
+        type:      git
+        uri:       git@github.com:grgbr/libmnl.git
+        origin:    github
+        branch:    cross-1.0.4
+        destdir:   src/libmnl
+
+linux:
+        type:    git
+        uri:     https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+        branch:  linux-5.4.y
+        destdir: src/linux
+
+mmc_utils:
+        type:    git
+        uri:     git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git
+        destdir: src/mmc_utils
+
+mtd_utils:
+        type:      git
+        uri:       git@github.com:grgbr/mtd-utils.git
+        origin:    github
+        branch:    cross-v2.1.2
+        destdir:   src/mtd_utils
+
+ncurses:
+        type:      git
+        uri:       git@github.com:grgbr/ncurses.git
+        branch:    orig-6.1
+        destdir:   src/ncurses
+
+nlink:
+        type:      git
+        uri:       git@github.com:grgbr/nlink.git
+        destdir:   src/nlink
+
+readline:
+        type:      git
+        uri:       https://git.savannah.gnu.org/git/readline.git
+        revision:  readline-6.3
+        destdir:   src/readline
+
+strace:
+        type:      git
+        uri:       git@github.com:grgbr/strace.git
+        origin:    github
+        branch:    cross-v5.6
+        destdir:   src/strace
+
+tinit:
+        type:      git
+        uri:       git@github.com:grgbr/tinit.git
+        destdir:   src/tinit
+        
+util_linux:
+        type:      git
+        uri:       git@github.com:grgbr/util-linux.git
+        origin:    github
+        branch:    cross-v2.35.2
+        destdir:   src/util_linux
+
+utils:
+        type:      git
+        uri:       git@github.com:grgbr/utils.git
+        destdir:   src/utils
+
+zlib:
+        type:      git
+        uri:       https://github.com/madler/zlib.git
+        revision:  v1.2.11
+        destdir:   src/zlib

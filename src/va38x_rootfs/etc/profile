@@ -1,0 +1,5 @@
+PATH="/bin"
+if [ $(id -u) -eq 0 ]; then
+	PATH="$PATH:/sbin"
+fi
+export PATH

@@ -1,0 +1,46 @@
+#!/bin/sh -e
+
+. /libexec/tinit/common
+
+trap 'tinit_panic "Services supervision runtime failure"' EXIT
+
+################################################################################
+# Mount configuration filesystem for initial services operations.
+################################################################################
+
+mnt_opts='rw,nosuid,nodev,noexec,nodiratime,relatime,noauto_da_alloc'
+
+title='Checking configuration file system'
+ret=0
+msg=$(e2fsck -E fixes_only -p LABEL=CONFIG 2>&1) || ret=$?
+if [ $ret -ne 0 ]; then
+	if [ $((ret & (128 | 32 | 16 | 8))) -ne 0 ]; then
+		tinit_panic "$title: runtime failure" "$msg"
+		ret=0
+	fi
+
+	if [ $((ret & 4)) -ne 0 ]; then
+		tinit_ermerg "$title: uncorrected errors" "$msg"
+		ret=$((ret & ~4))
+	fi
+
+	if [ $((ret & 2)) -ne 0 ]; then
+		tinit_warn "$title" "reboot required"
+		tinit_reboot
+	fi
+
+	if [ $((ret & 1)) -ne 0 ]; then
+		tinit_warn "$title" "errors corrected"
+	fi
+else
+	tinit_info "$title"
+fi
+
+title='Mounting configuration file system'
+if ! msg=$(mount -t ext4 -o $mnt_opts LABEL=CONFIG /mnt/config 2>&1); then
+	tinit_panic "$title failed" "$msg"
+else
+	tinit_info "$title"
+fi
+
+exec runsvdir -s /libexec/tinit/shutdown -P . <&-

@@ -1,0 +1,34 @@
+# Script given to sfdisk / fdisk to partition an 8gB eMMC storage
+
+# Use GUID Partition Table (GPT) scheme.
+# Size are expressed as number of 512 bytes long logical sectors.
+# First 8 sectors hold the partition table.
+# First partition starts at 4miB boundary to align with underlying eMMC erase
+# group size.
+# Patition types are given as partition type GUID: see section
+# "partition type GUIDs" of http://en.wikipedia.org/wiki/GUID_Partition_Table
+label: gpt
+unit: sectors
+first-lba: 8192
+last-lba: 16769024
+table-length: 24
+
+# Boot partition
+#   size: 32M
+#   type: Linux boot partition
+start=8192, size=65536, name=BOOT, type=BC13C2FF-59E6-4262-A352-B275FD6F7172
+
+# Root partition
+#   size: 256M
+#   type: 32-bit ARM Linux root partition
+size=524288, name=ROOT, type=69DAD710-2CE4-4E3C-B16C-21A1D49ABED3
+
+# Configuration partition
+#   size: 1G
+#   type: Linux filesystem data
+size=2097152, name=CONFIG, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4
+
+# Data partition
+#   size: 4G
+#   type: Linux filesystem data
+size=8388608, name=DATA, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4

@@ -5,7 +5,7 @@ $(error Invalid path to IC toolchain host tools: no such directory !)
 endif
 
 ICCHAIN_TARGET_DIR := $(realpath $(ICCHAIN_TARGET_DIR))
-ifeq ($(ICCHAIN_HOST_DIR),)
+ifeq ($(ICCHAIN_TARGET_DIR),)
 $(error Invalid path to IC toolchain target tools: no such directory !)
 endif
 

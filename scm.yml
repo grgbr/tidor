@@ -125,7 +125,7 @@ libmnl:
 
 linux:
         type:    git
-        uri:     https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+        uri:     git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
         branch:  linux-5.4.y
         destdir: src/linux
 

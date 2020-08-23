@@ -12,10 +12,10 @@ VA38X_DEBUG_LDFLAGS := -rdynamic
 VA38X_ARCH_CFLAGS := -mabi=aapcs-linux \
                      -mno-thumb-interwork \
                      -marm \
-                     -march=armv7-a \
+                     -march=armv7-a+mp+sec+simd \
                      -mtune=cortex-a9 \
                      -mcpu=cortex-a9 \
-                     -mfpu=neon-fp16 \
+                     -mfpu=neon-vfpv3 \
                      -mhard-float \
                      -mfloat-abi=hard
 
@@ -60,14 +60,14 @@ endef
 MODULES += elfutils
 
 ELFUTILS_SRCDIR                := $(TOPDIR)/src/elfutils
-ELFUTILS_AUTOTOOLS_ENV         := $(ICCHAIN_AUTOTOOLS_ENV)
+ELFUTILS_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
 ELFUTILS_TARGET_PREFIX         :=
 ELFUTILS_TARGET_CFLAGS         := $(VA38X_CFLAGS) -O2 \
                                   -I$(stagingdir)/usr/include
 ELFUTILS_TARGET_LDFLAGS        := $(VA38X_LDFLAGS) -O2 \
                                   -L$(stagingdir)/lib \
                                   -Wl,-rpath-link,$(stagingdir)/lib
-ELFUTILS_TARGET_CONFIGURE_ARGS := $(ICCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
+ELFUTILS_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
                                   $(call ifdef, \
                                          ELFUTILS_TARGET_CFLAGS, \
                                          CFLAGS="$(ELFUTILS_TARGET_CFLAGS)") \
@@ -77,7 +77,7 @@ ELFUTILS_TARGET_CONFIGURE_ARGS := $(ICCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
                                   --prefix=$(ELFUTILS_TARGET_PREFIX) \
                                   --disable-nls \
                                   --disable-debuginfod
-ELFUTILS_TARGET_MAKE_ARGS      := $(ICCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
+ELFUTILS_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                   DESTDIR:=$(stagingdir)
 
 ################################################################################
@@ -89,9 +89,9 @@ MODULES += ethtool
 ETHTOOL_SRCDIR                := $(TOPDIR)/src/ethtool
 ETHTOOL_TARGET_CFLAGS         := $(VA38X_CFLAGS) -O2 -DNDEBUG
 ETHTOOL_TARGET_LDFLAGS        := $(VA38X_LDFLAGS) -O2
-ETHTOOL_AUTOTOOLS_ENV         := $(ICCHAIN_AUTOTOOLS_ENV)
+ETHTOOL_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
 ETHTOOL_TARGET_PREFIX         :=
-ETHTOOL_TARGET_CONFIGURE_ARGS := $(ICCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
+ETHTOOL_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
                                  $(call ifdef, \
                                         ETHTOOL_TARGET_CFLAGS, \
                                         CFLAGS="$(ETHTOOL_TARGET_CFLAGS)") \
@@ -100,7 +100,7 @@ ETHTOOL_TARGET_CONFIGURE_ARGS := $(ICCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
                                         LDFLAGS="$(ETHTOOL_TARGET_LDFLAGS)") \
                                  --prefix=$(ETHTOOL_TARGET_PREFIX) \
                                  --enable-pretty-dump
-ETHTOOL_TARGET_MAKE_ARGS      := $(ICCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
+ETHTOOL_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                  DESTDIR:=$(stagingdir)
 
 ################################################################################
@@ -110,6 +110,7 @@ ETHTOOL_TARGET_MAKE_ARGS      := $(ICCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
 # Declare additional Linux kernel configuration files to be merged with default
 # board build configuration.
 LINUX_CONFIG_FILES += $(CONFIGDIR)/linux.mk
+LINUX_DEFCONFIG    := $(PLATFORMDIR)/va38x/linux_devel.defconfig
 
 # Override platform help message to include devel specific informations
 define LINUX_PLATFORM_HELP
@@ -127,8 +128,8 @@ endef
 MODULES += mmc_utils
 
 MMC_UTILS_SRCDIR        := $(TOPDIR)/src/mmc_utils
-MMC_UTILS_CROSS_COMPILE := $(ICCHAIN_CROSS_COMPILE)-
-MMC_UTILS_CFLAGS        := --sysroot=$(ICCHAIN_SYSROOT) \
+MMC_UTILS_CROSS_COMPILE := $(XTCHAIN_CROSS_COMPILE)-
+MMC_UTILS_CFLAGS        := --sysroot=$(XTCHAIN_SYSROOT) \
                            $(VA38X_CFLAGS) -O2 -DNDEBUG
 MMC_UTILS_LDFLAGS       := $(VA38X_LDFLAGS) -O2
 
@@ -139,14 +140,14 @@ MMC_UTILS_LDFLAGS       := $(VA38X_LDFLAGS) -O2
 MODULES += strace
 
 STRACE_SRCDIR                := $(TOPDIR)/src/strace
-STRACE_AUTOTOOLS_ENV         := $(ICCHAIN_AUTOTOOLS_ENV)
+STRACE_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
 STRACE_TARGET_PREFIX         :=
 STRACE_TARGET_CPPFLAGS       := -isystem $(stagingdir)/usr/include
 STRACE_TARGET_CFLAGS         := $(VA38X_CFLAGS) -O2
 STRACE_TARGET_LDFLAGS        := $(VA38X_LDFLAGS) -O2 \
                                 -L$(stagingdir)/lib \
                                 -Wl,-rpath-link,$(stagingdir)/lib
-STRACE_TARGET_CONFIGURE_ARGS := $(ICCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
+STRACE_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
                                 $(call ifdef, \
                                        STRACE_TARGET_CPPFLAGS, \
                                        CPPFLAGS="$(STRACE_TARGET_CPPFLAGS)") \
@@ -160,7 +161,7 @@ STRACE_TARGET_CONFIGURE_ARGS := $(ICCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
                                 --enable-stacktrace=yes \
                                 --enable-mpers=no \
                                 --with-libdw
-STRACE_TARGET_MAKE_ARGS      := $(ICCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
+STRACE_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                 DESTDIR:=$(stagingdir)
 
 ################################################################################

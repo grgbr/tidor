@@ -1,9 +1,9 @@
 SCRIPTDIR             := $(CURDIR)/scripts
 OUTDIR                := $(CURDIR)/out
-ICCHAIN_HOST_DIR      := /opt/icchain/cometh77b
-ICCHAIN_TARGET_DIR    := $(ICCHAIN_HOST_DIR)/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf
-PATH                  := $(ICCHAIN_TARGET_DIR)/bin:$(ICCHAIN_HOST_DIR)/bin:$(PATH)
-CRAFTER_PLATFORM_VARS := ICCHAIN_HOST_DIR ICCHAIN_TARGET_DIR PATH
+XTCHAIN_HOST_DIR      := $(HOME)/dev/tools/xtchain/a38x
+XTCHAIN_TARGET_DIR    := $(XTCHAIN_HOST_DIR)/armv7_a38x-xtchain-linux-gnueabihf
+PATH                  := $(XTCHAIN_TARGET_DIR)/bin:$(XTCHAIN_HOST_DIR)/bin:$(PATH)
+CRAFTER_PLATFORM_VARS := XTCHAIN_HOST_DIR XTCHAIN_TARGET_DIR PATH
 CRAFTERDIR            := $(CURDIR)/src/crafter
 PLATFORMDIR           := $(CURDIR)/build/platforms
 MODULEDIR             := $(CURDIR)/build/modules

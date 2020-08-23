@@ -23,7 +23,7 @@ readline_make = $(call autotools_target_make, \
                        $(1), \
                        $(READLINE_TARGET_MAKE_ARGS) \
                        SHLIB_XLDFLAGS:="-L$(stagindir)/usr/lib -L$(stagingdir)/lib" \
-                       SHLIB_LIBS:="-ltinfo")
+                       SHLIB_LIBS:="-ltinfow")
 
 # Location of staged readline shared library.
 readline_staging_lib := \

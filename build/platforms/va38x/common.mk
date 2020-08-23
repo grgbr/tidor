@@ -387,6 +387,7 @@ NCURSES_TARGET_CONFIGURE_ARGS := $(ICCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
                                  --enable-sigwinch \
                                  --without-develop \
                                  --enable-overwrite \
+                                 --enable-widec \
                                  --disable-ext-colors
 NCURSES_TARGET_MAKE_ARGS      := $(ICCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                  DESTDIR:=$(stagingdir)
@@ -480,7 +481,7 @@ UTIL_LINUX_TARGET_CONFIGURE_ARGS := $(ICCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
                                     $(call ifdef, \
                                            UTIL_LINUX_TARGET_LDFLAGS, \
                                            LDFLAGS="$(UTIL_LINUX_TARGET_LDFLAGS)") \
-                                    NCURSES6_CONFIG="$(stagingdir)/bin/ncurses6-config" \
+                                    NCURSESW6_CONFIG="$(stagingdir)/bin/ncursesw6-config" \
                                     --prefix=$(UTIL_LINUX_TARGET_PREFIX) \
                                     --enable-shared \
                                     --enable-static \

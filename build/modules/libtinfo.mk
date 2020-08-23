@@ -4,7 +4,7 @@ $(call gen_module_depends,ncurses)
 
 # Location of staged tinfo shared library.
 libtinfo_staging_lib := \
-	$(stagingdir)$(LIBTINFO_TARGET_PREFIX)/lib/libtinfo.so.[0-9].[0-9]
+	$(stagingdir)$(LIBTINFO_TARGET_PREFIX)/lib/libtinfow.so.[0-9].[0-9]
 
 # Location of bundled tinfo shared library.
 libtinfo_bundle_libdir := $(bundle_rootdir)$(LIBTINFO_TARGET_PREFIX)/lib

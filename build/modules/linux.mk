@@ -32,7 +32,8 @@ Build Linux kernel images, modules and device firmwares as required by platform.
                             [$(LINUX_CROSS_COMPILE)]
   LINUX_ARCH             -- Linux architecture to build for
                             [$(LINUX_ARCH)]
-  LINUX_DEFCONFIG        -- Default Linux build configuration target
+  LINUX_DEFCONFIG        -- Default Linux build configuration target or file
+                            path
                             [$(LINUX_DEFCONFIG)]
   LINUX_DEVICETREE       -- Default Linux device tree name target
                             [$(LINUX_DEVICETREE)]
@@ -59,12 +60,22 @@ endef
 # Configure logic
 ################################################################################
 
+ifneq ($(realpath $(LINUX_DEFCONFIG)),)
+define linux_defconfig_recipe
+cp $(LINUX_DEFCONFIG) $(module_builddir)/.config
++$(Q)$(call kbuild_config_cmd, \
+            $(LINUX_SRCDIR), \
+            olddefconfig, \
+            $(linux_make_args))
+endef
+else
 define linux_defconfig_recipe
 +$(Q)$(call kbuild_config_cmd, \
             $(LINUX_SRCDIR), \
             $(LINUX_DEFCONFIG), \
             $(linux_make_args))
 endef
+endif
 
 define linux_merge_config_recipe
 +$(Q)$(call kbuild_merge_config_cmd, \

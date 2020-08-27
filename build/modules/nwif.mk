@@ -1,14 +1,16 @@
 include $(CRAFTERDIR)/core/module.mk
 include $(CRAFTERDIR)/core/ebuild.mk
 
-$(call gen_module_depends,nlink)
+$(call gen_module_depends,nlink kvstore)
 
 $(call dieon_undef_or_empty,NWIF_SRCDIR)
 $(call dieon_undef_or_empty,NWIF_EBUILDDIR)
 $(call dieon_undef_or_empty,NWIF_CROSS_COMPILE)
 
 nwif_cflags  := $(NWIF_CFLAGS) -I$(stagingdir)/usr/include
-nwif_ldflags := $(NWIF_LDFLAGS) -L$(stagingdir)/lib
+nwif_ldflags := $(NWIF_LDFLAGS) \
+                -L$(stagingdir)/lib \
+                -Wl,-rpath-link,$(stagingdir)/lib
 
 # Additional nwif specific make arguments given to ebuild commands
 nwif_make_args := \
@@ -37,29 +39,31 @@ Build nwif, a busybox runit / glibc based init.
 
 ::Configuration variables::
   NWIF_SRCDIR         -- Path to nwif source tree root directory
-                          [$(NWIF_SRCDIR)]
+                         [$(NWIF_SRCDIR)]
   NWIF_EBUILDDIR      -- Path to ebuild source tree root directory
-                          [$(NWIF_EBUILDDIR)]
+                         [$(NWIF_EBUILDDIR)]
   NWIF_DEFCONFIG_FILE -- Optional default build configuration file path
-                          [$(NWIF_DEFCONFIG_FILE)]
+                         [$(NWIF_DEFCONFIG_FILE)]
   NWIF_CONFIG_FILES   -- Additional configuration files merged with current
-                          configuration
-                          [$(NWIF_CONFIG_FILES)]
+                         configuration
+                         [$(NWIF_CONFIG_FILES)]
   NWIF_CROSS_COMPILE  -- Path to nwif cross compiling tool chain
-                          [$(NWIF_CROSS_COMPILE)]
+                         [$(NWIF_CROSS_COMPILE)]
   NWIF_PKGCONF        -- pkg-config environment passed to nwif build process
-                          [$(call nwif_align_help,$(NWIF_PKGCONF))]
+                         [$(call nwif_align_help,$(NWIF_PKGCONF))]
   NWIF_CFLAGS         -- Optional extra CFLAGS passed to nwif compile
-                          process
-                          [$(call nwif_align_help,$(NWIF_CFLAGS))]
+                         process
+                         [$(call nwif_align_help,$(NWIF_CFLAGS))]
   NWIF_LDFLAGS        -- Optional extra LDFLAGS passed to nwif link
-                          process
-                          [$(call nwif_align_help,$(NWIF_LDFLAGS))]
+                         process
+                         [$(call nwif_align_help,$(NWIF_LDFLAGS))]
 
 ::Installed::
+  $$(stagingdir)/bin/nwif_conf  -- Configuration utility
   $$(stagingdir)/lib/libnwif.so -- Shared library
 
 ::Bundled::
+  $$(bundle_rootdir)/bin/nwif_conf  -- Configuration utility
   $$(bundle_rootdir)/lib/libnwif.so -- Shared library
 endef
 
@@ -140,12 +144,9 @@ $(call ebuild_gen_uninstall_rule,nwif_uninstall_recipe)
 # Bundle logic
 ################################################################################
 
-#define nwif_bundle_recipe
-#+$(Q)$(call bundle_lib_cmd,$(stagingdir)/lib/libnwif.so,$(bundle_rootdir)/lib)
-#endef
-
 define nwif_bundle_recipe
-+$(Q)$(call bundle_bin_cmd,$(stagingdir)/sbin/nwifd,$(bundle_rootdir)/sbin)
++$(Q)$(call bundle_lib_cmd,$(stagingdir)/lib/libnwif.so,$(bundle_rootdir)/lib)
++$(Q)$(call bundle_bin_cmd,$(stagingdir)/bin/nwif_conf,$(bundle_rootdir)/bin)
 endef
 
 
@@ -155,12 +156,9 @@ $(call ebuild_gen_bundle_rule,nwif_bundle_recipe)
 # Drop logic
 ################################################################################
 
-#define nwif_drop_recipe
-#+$(Q)$(call drop_lib_cmd,$(stagingdir)/lib/libnwif.so,$(bundle_rootdir)/lib)
-#endef
-
 define nwif_drop_recipe
-+$(Q)$(call drop_cmd,$(bundle_rootdir)/sbin/nwifd)
++$(Q)$(call drop_cmd,$(bundle_rootdir)/bin/nwif_conf)
++$(Q)$(call drop_lib_cmd,$(stagingdir)/lib/libnwif.so,$(bundle_rootdir)/lib)
 endef
 
 $(call ebuild_gen_drop_rule,nwif_drop_recipe)

@@ -30,6 +30,19 @@ unexport AS \
 MODULES :=
 
 ################################################################################
+# clui module
+################################################################################
+
+MODULES += clui
+
+CLUI_SRCDIR        := $(TOPDIR)/src/clui
+CLUI_EBUILDDIR     := $(TOPDIR)/src/ebuild
+CLUI_CROSS_COMPILE := $(XTCHAIN_CROSS_COMPILE)-
+CLUI_CFLAGS        := --sysroot=$(XTCHAIN_SYSROOT) $(VA38X_CFLAGS) -O2
+CLUI_LDFLAGS       := $(VA38X_LDFLAGS) -O2
+CLUI_PKGCONF       := $(XTCHAIN_PKGCONF_ENV)
+
+################################################################################
 # e2fsprogs module
 ################################################################################
 

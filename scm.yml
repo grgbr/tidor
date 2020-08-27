@@ -70,6 +70,11 @@ busybox:
         branch:    1_32_stable
         destdir:   src/busybox
 
+clui:
+        type:      git
+        uri:       git@github.com:grgbr/clui.git
+        destdir:   src/clui
+
 crafter:
         type:      git
         uri:       git@github.com:grgbr/crafter.git

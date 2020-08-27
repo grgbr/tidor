@@ -256,7 +256,7 @@ LIBDB_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
                                 --prefix=$(LIBDB_TARGET_PREFIX) \
                                 --disable-compression \
                                 --disable-hash \
-                                --disable-heap \
+                                --enable-heap \
                                 --disable-partition \
                                 --disable-replication \
                                 --disable-compat185 \

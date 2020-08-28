@@ -1,7 +1,8 @@
 include $(CRAFTERDIR)/core/module.mk
 include $(CRAFTERDIR)/core/ebuild.mk
 
-$(call gen_module_depends,nlink kvstore)
+$(call gen_module_depends, \
+       nlink kvstore clui utils $(if $(filter,btrace,$(MODULES)),btrace))
 
 $(call dieon_undef_or_empty,NWIF_SRCDIR)
 $(call dieon_undef_or_empty,NWIF_EBUILDDIR)

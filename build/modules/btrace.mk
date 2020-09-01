@@ -8,7 +8,9 @@ $(call dieon_undef_or_empty,BTRACE_EBUILDDIR)
 $(call dieon_undef_or_empty,BTRACE_CROSS_COMPILE)
 
 btrace_cflags  := $(BTRACE_CFLAGS) -I$(stagingdir)/usr/include
-btrace_ldflags := $(BTRACE_LDFLAGS) -L$(stagingdir)/lib
+btrace_ldflags := $(BTRACE_LDFLAGS) \
+                  -L$(stagingdir)/lib \
+                  -Wl,-rpath-link,$(stagingdir)/lib
 
 # Additional btrace specific make arguments given to ebuild commands
 btrace_make_args := \

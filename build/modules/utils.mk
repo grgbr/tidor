@@ -6,7 +6,9 @@ $(call dieon_undef_or_empty,UTILS_EBUILDDIR)
 $(call dieon_undef_or_empty,UTILS_CROSS_COMPILE)
 
 utils_cflags  := $(UTILS_CFLAGS) -I$(stagingdir)/usr/include
-utils_ldflags := $(UTILS_LDFLAGS) -L$(stagingdir)/lib
+utils_ldflags := $(UTILS_LDFLAGS) \
+                 -L$(stagingdir)/lib \
+                 -Wl,-rpath-link,$(stagingdir)/lib
 
 # Additional utils specific make arguments given to ebuild commands
 utils_make_args := \

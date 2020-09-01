@@ -8,7 +8,9 @@ $(call dieon_undef_or_empty,KVSTORE_EBUILDDIR)
 $(call dieon_undef_or_empty,KVSTORE_CROSS_COMPILE)
 
 kvstore_cflags  := $(KVSTORE_CFLAGS) -I$(stagingdir)/usr/include
-kvstore_ldflags := $(KVSTORE_LDFLAGS) -L$(stagingdir)/lib
+kvstore_ldflags := $(KVSTORE_LDFLAGS) \
+                   -L$(stagingdir)/lib \
+                   -Wl,-rpath-link,$(stagingdir)/lib
 
 # Additional kvstore specific make arguments given to ebuild commands
 kvstore_make_args := \

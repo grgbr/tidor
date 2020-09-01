@@ -9,7 +9,9 @@ $(call dieon_undef_or_empty,TINIT_SRCDIR)
 $(call dieon_undef_or_empty,TINIT_CROSS_COMPILE)
 
 tinit_cflags  := $(TINIT_CFLAGS) -I$(stagingdir)/include
-tinit_ldflags := $(TINIT_LDFLAGS) -L$(stagingdir)/lib
+tinit_ldflags := $(TINIT_LDFLAGS) \
+                 -L$(stagingdir)/lib \
+                 -Wl,-rpath-link,$(stagingdir)/lib
 
 # Additional Tinit specific make arguments given to ebuild commands
 tinit_make_args := CROSS_COMPILE:="$(TINIT_CROSS_COMPILE)" \

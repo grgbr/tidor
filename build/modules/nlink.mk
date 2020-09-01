@@ -8,7 +8,9 @@ $(call dieon_undef_or_empty,NLINK_EBUILDDIR)
 $(call dieon_undef_or_empty,NLINK_CROSS_COMPILE)
 
 nlink_cflags  := $(NLINK_CFLAGS) -I$(stagingdir)/usr/include
-nlink_ldflags := $(NLINK_LDFLAGS) -L$(stagingdir)/lib
+nlink_ldflags := $(NLINK_LDFLAGS) \
+                 -L$(stagingdir)/lib \
+                 -Wl,-rpath-link,$(stagingdir)/lib
 
 # Additional nlink specific make arguments given to ebuild commands
 nlink_make_args := \

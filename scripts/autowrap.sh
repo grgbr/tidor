@@ -8,9 +8,9 @@ platform=$(make --no-print-directory -C $topdir show-platform)
 stagingdir=$outdir/${platform/-//}/staging
 
 toolchain_target_dir=$(make -p -C $topdir | \
-                       awk -F ':= ' '/^ICCHAIN_TARGET_DIR/ { print $2 }')
+                       awk -F ':= ' '/^XTCHAIN_TARGET_DIR/ { print $2 }')
 toolchain_host_dir=$(make -p -C $topdir | \
-                     awk -F ':= ' '/^ICCHAIN_HOST_DIR/ { print $2 }')
+                     awk -F ':= ' '/^XTCHAIN_HOST_DIR/ { print $2 }')
 
 exec env PATH="$toolchain_target_dir/bin:$toolchain_host_dir/bin:$PATH" \
          PKG_CONFIG="$toolchain_host_dir/bin/pkg-config" \

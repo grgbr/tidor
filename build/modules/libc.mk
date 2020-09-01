@@ -46,7 +46,7 @@ Install basic C library objects from external toolchain.
 ::Installed::
   $$(hostdir)/bin/gdb     -- Host side cross GNU debugger binary
   $$(hostdir)/etc/gdbinit -- Host side cross GNU debugger initialization command
-                             file
+                            file
 
 ::Bundled::
   $(subst $(space),$(newline)  ,$(strip $(libc_sonames)))

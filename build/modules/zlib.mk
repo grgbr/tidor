@@ -5,6 +5,9 @@ $(call dieon_undef_or_empty,ZLIB_SRCDIR)
 # Interrupt processing if platform specified no cross toolchain.
 $(call dieon_undef_or_empty,ZLIB_CROSS_COMPILE)
 
+ZLIB_CFLAGS  := $(strip $(ZLIB_CFLAGS))
+ZLIB_LDFLAGS := $(strip $(ZLIB_LDFLAGS))
+
 # Basic zlib make invocation macro.
 zlib_make := $(MAKE) -C $(module_builddir)
 

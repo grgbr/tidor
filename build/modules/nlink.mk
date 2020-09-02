@@ -1,7 +1,7 @@
 include $(CRAFTERDIR)/core/module.mk
 include $(CRAFTERDIR)/core/ebuild.mk
 
-$(call gen_module_depends,utils)
+$(call gen_module_depends,utils libmnl)
 
 $(call dieon_undef_or_empty,NLINK_SRCDIR)
 $(call dieon_undef_or_empty,NLINK_EBUILDDIR)

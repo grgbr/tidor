@@ -59,6 +59,15 @@ lzo ?
 smcroute
 squashfs ?
 
+modules to load on clearfog-pro:
+================================
+
+marvell-cesa spi-orion spi-nor mv88e6xxx xhci-plat-hcd uas sd-mod sfp
+
+init tasks
+==========
+hwclock / rtc / ntpdate/ ntpd
+
 ext4 fs:
 ========
 

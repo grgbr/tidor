@@ -1,2 +1,2 @@
 # The list of supported hardware platforms
-BOARDS := va38x
+BOARDS := va38x cfogp

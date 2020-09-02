@@ -31,7 +31,7 @@ endef
 ################################################################################
 
 define clui_align_help
-$(subst $(space),$(newline)                           ,$(strip $(1)))
+$(subst $(space),$(newline)                          ,$(strip $(1)))
 endef
 
 define module_help

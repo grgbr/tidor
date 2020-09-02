@@ -266,7 +266,8 @@ NCURSES_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
                                  --without-develop \
                                  --enable-overwrite \
                                  --enable-widec \
-                                 --disable-ext-colors
+                                 --disable-ext-colors \
+                                 ac_cv_func_issetugid='no'
 NCURSES_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                  DESTDIR:=$(stagingdir)
 

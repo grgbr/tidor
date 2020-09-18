@@ -38,9 +38,9 @@
 # * a SHA1: «e0c51bdb9339719d94d96211f255d3ba8bbce3ca» (or abbreviated form)
 # * or a tag: «testtag»
 # * or a remote branch head: «mydevbranch»
-# 
+#
 # «branch» and «revision» keywords are exclusive.
-# 
+#
 #
 # Subversion related properties:
 # ------------------------------
@@ -63,7 +63,7 @@ btrace:
         type:      git
         uri:       git@github.com:grgbr/btrace.git
         destdir:   src/btrace
-        
+
 busybox:
         type:      git
         uri:       https://git.busybox.net/busybox
@@ -97,18 +97,24 @@ elfutils:
         origin:    github
         branch:    cross-0.179
         destdir:   src/elfutils
-        
+
 ethtool:
         type:      git
         uri:       git@github.com:grgbr/ethtool.git
         origin:    github
         branch:    cross-v5.4
         destdir:   src/ethtool
-        
+
 iana_etc:
         type:      git
         uri:       git@github.com:grgbr/iana_etc.git
         destdir:   src/iana_etc
+
+iperf:
+        type:      git
+        uri:       git@github.com:esnet/iperf.git
+        revision:  3.9
+        destdir:   src/iperf
 
 kvstore:
         type:      git
@@ -179,7 +185,7 @@ tinit:
         type:      git
         uri:       git@github.com:grgbr/tinit.git
         destdir:   src/tinit
-        
+
 util_linux:
         type:      git
         uri:       git@github.com:grgbr/util-linux.git

@@ -158,6 +158,13 @@ ncurses:
         branch:    orig-6.1
         destdir:   src/ncurses
 
+netperf:
+        type:      git
+        uri:       git@github.com:grgbr/netperf.git
+        origin:    github
+        branch:    cross-netperf-2.7.0
+        destdir:   src/netperf
+
 nlink:
         type:      git
         uri:       git@github.com:grgbr/nlink.git

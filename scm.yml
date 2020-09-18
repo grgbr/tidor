@@ -121,6 +121,12 @@ kvstore:
         uri:       git@github.com:grgbr/kvstore.git
         destdir:   src/kvstore
 
+libcap:
+        type:      git
+        uri:       git://git.kernel.org/pub/scm/libs/libcap/libcap.git
+        revision:  libcap-2.43
+        destdir:   src/libcap
+
 libdb:
         type:      git
         uri:       https://github.com/berkeleydb/libdb.git

@@ -116,6 +116,13 @@ iperf:
         revision:  3.9
         destdir:   src/iperf
 
+iproute2:
+        type:      git
+        uri:       git@github.com:grgbr/iproute2.git
+        origin:    github
+        branch:    cross-v5.6.0
+        destdir:   src/iproute2
+
 kvstore:
         type:      git
         uri:       git@github.com:grgbr/kvstore.git

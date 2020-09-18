@@ -147,6 +147,12 @@ libmnl:
         branch:    cross-1.0.4
         destdir:   src/libmnl
 
+libpcap:
+        type:      git
+        uri:       git@github.com:the-tcpdump-group/libpcap.git
+        revision:  libpcap-1.9.1
+        destdir:   src/libpcap
+
 linux:
         type:    git
         uri:     git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git

@@ -1,28 +1,26 @@
+# Security hardening flags
+#VA38X_HARDEN_CFLAGS := -D_FORTIFY_SOURCE=2 \
+#                       -fstack-protector-all \
+#                       -fstack-check \
+#                       -fstack-clash-protection \
+#                       -fsanitize=address \
+#                       -fsanitize=pointer-compare \
+#                       -fsanitize=pointer-subtract \
+#                       -fsanitize=leak \
+#                       -fsanitize=undefined \
+#                       -fsanitize-address-use-after-scope \
+#                       -fcf-protection=full
+#                       -fpie / -fPIE -DPIE
+#VA38X_HARDEN_LDFLAGS := -pie \
+#                        -Wl,-z,relro -Wl,-z,now
+
+# Optimization flags
+VA38X_OPTIM_CFLAGS  := -O2 -flto
+VA38X_OPTIM_LDFLAGS := -O2 -flto -fuse-linker-plugin
+
 # Debugging flags
 VA38X_DEBUG_CFLAGS  := -ggdb3
 VA38X_DEBUG_LDFLAGS := -rdynamic
-
-# Security hardening flags
-#VA38X_HARDEN_CFLAGS := -D_FORTIFY_SOURCE=2 \
-#                       -fstack-protector-all
-#                       -fstack-check
-#
-
-# Hardware architecture specific flags
-VA38X_ARCH_CFLAGS := -mabi=aapcs-linux \
-                     -mno-thumb-interwork \
-                     -marm \
-                     -march=armv7-a+mp+sec+simd \
-                     -mtune=cortex-a9 \
-                     -mcpu=cortex-a9 \
-                     -mfpu=neon-vfpv3 \
-                     -mhard-float \
-                     -mfloat-abi=hard
-
-VA38X_CFLAGS  := $(VA38X_ARCH_CFLAGS) \
-                 $(VA38X_HARDEN_CFLAGS) \
-                 $(VA38X_DEBUG_CFLAGS)
-VA38X_LDFLAGS := $(VA38X_DEBUG_LDFLAGS)
 
 include $(PLATFORMDIR)/va38x/common.mk
 
@@ -34,17 +32,18 @@ include $(PLATFORMDIR)/va38x/common.mk
 BASE_ROOTFS_ROOT_PASSWD :=
 
 ################################################################################
+# btrace module
+################################################################################
+
+MODULES += btrace
+
+################################################################################
 # busybox module
 ################################################################################
 
-# Declare additional busybox configuration files to be merged with default
-# board build configuration.
-BUSYBOX_CONFIG_FILES := $(CONFIGDIR)/busybox.mk
-
-# Use development oriented build configuration.
+BUSYBOX_CONFIG_FILES   := $(CONFIGDIR)/busybox.mk
 BUSYBOX_DEFCONFIG_FILE := $(PLATFORMDIR)/va38x/busybox_devel.defconfig
 
-# Override platform help message to include devel specific informations
 define BUSYBOX_PLATFORM_HELP
 
 ::Customization::
@@ -54,31 +53,17 @@ define BUSYBOX_PLATFORM_HELP
 endef
 
 ################################################################################
+# clui module
+################################################################################
+
+CLUI_CONFIG_FILES   := $(CONFIGDIR)/clui.mk
+CLUI_DEFCONFIG_FILE := $(PLATFORMDIR)/va38x/clui_devel.defconfig
+
+################################################################################
 # elfutils module
 ################################################################################
 
 MODULES += elfutils
-
-ELFUTILS_SRCDIR                := $(TOPDIR)/src/elfutils
-ELFUTILS_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
-ELFUTILS_TARGET_PREFIX         :=
-ELFUTILS_TARGET_CFLAGS         := $(VA38X_CFLAGS) -O2 \
-                                  -I$(stagingdir)/usr/include
-ELFUTILS_TARGET_LDFLAGS        := $(VA38X_LDFLAGS) -O2 \
-                                  -L$(stagingdir)/lib \
-                                  -Wl,-rpath-link,$(stagingdir)/lib
-ELFUTILS_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
-                                  $(call ifdef, \
-                                         ELFUTILS_TARGET_CFLAGS, \
-                                         CFLAGS="$(ELFUTILS_TARGET_CFLAGS)") \
-                                  $(call ifdef, \
-                                         ELFUTILS_TARGET_LDFLAGS, \
-                                         LDFLAGS="$(ELFUTILS_TARGET_LDFLAGS)") \
-                                  --prefix=$(ELFUTILS_TARGET_PREFIX) \
-                                  --disable-nls \
-                                  --disable-debuginfod
-ELFUTILS_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
-                                  DESTDIR:=$(stagingdir)
 
 ################################################################################
 # ethtool module
@@ -86,30 +71,44 @@ ELFUTILS_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
 
 MODULES += ethtool
 
-ETHTOOL_SRCDIR                := $(TOPDIR)/src/ethtool
-ETHTOOL_TARGET_CFLAGS         := $(VA38X_CFLAGS) -O2 -DNDEBUG
-ETHTOOL_TARGET_LDFLAGS        := $(VA38X_LDFLAGS) -O2
-ETHTOOL_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
-ETHTOOL_TARGET_PREFIX         :=
-ETHTOOL_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
-                                 $(call ifdef, \
-                                        ETHTOOL_TARGET_CFLAGS, \
-                                        CFLAGS="$(ETHTOOL_TARGET_CFLAGS)") \
-                                 $(call ifdef, \
-                                        ETHTOOL_TARGET_LDFLAGS, \
-                                        LDFLAGS="$(ETHTOOL_TARGET_LDFLAGS)") \
-                                 --prefix=$(ETHTOOL_TARGET_PREFIX) \
-                                 --enable-pretty-dump
-ETHTOOL_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
-                                 DESTDIR:=$(stagingdir)
+################################################################################
+# iperf module
+################################################################################
+
+MODULES += iperf
+
+################################################################################
+# iproute2 module
+################################################################################
+
+MODULES += iproute2
+
+################################################################################
+# kvstore module
+################################################################################
+
+KVSTORE_CONFIG_FILES   := $(CONFIGDIR)/kvstore.mk
+KVSTORE_DEFCONFIG_FILE := $(PLATFORMDIR)/va38x/kvstore_devel.defconfig
+
+################################################################################
+# libcap module
+################################################################################
+
+MODULES += libcap
+
+################################################################################
+# libdb module
+#
+# Enable full error messaging support.
+################################################################################
+
+LIBDB_TARGET_CONFIGURE_ARGS += --disable-stripped_messages
 
 ################################################################################
 # linux kernel module
 ################################################################################
 
-# Declare additional Linux kernel configuration files to be merged with default
-# board build configuration.
-LINUX_CONFIG_FILES += $(CONFIGDIR)/linux.mk
+LINUX_CONFIG_FILES := $(CONFIGDIR)/linux.mk
 LINUX_DEFCONFIG    := $(PLATFORMDIR)/va38x/linux_devel.defconfig
 
 # Override platform help message to include devel specific informations
@@ -127,11 +126,25 @@ endef
 
 MODULES += mmc_utils
 
-MMC_UTILS_SRCDIR        := $(TOPDIR)/src/mmc_utils
-MMC_UTILS_CROSS_COMPILE := $(XTCHAIN_CROSS_COMPILE)-
-MMC_UTILS_CFLAGS        := --sysroot=$(XTCHAIN_SYSROOT) \
-                           $(VA38X_CFLAGS) -O2 -DNDEBUG
-MMC_UTILS_LDFLAGS       := $(VA38X_LDFLAGS) -O2
+################################################################################
+# netperf module
+################################################################################
+
+MODULES += netperf
+
+################################################################################
+# nlink module
+################################################################################
+
+NLINK_CONFIG_FILES   := $(CONFIGDIR)/nlink.mk
+NLINK_DEFCONFIG_FILE := $(PLATFORMDIR)/va38x/nlink_devel.defconfig
+
+################################################################################
+# nwif module
+################################################################################
+
+NWIF_CONFIG_FILES   := $(CONFIGDIR)/nwif.mk
+NWIF_DEFCONFIG_FILE := $(PLATFORMDIR)/va38x/nwif_devel.defconfig
 
 ################################################################################
 # strace module
@@ -139,38 +152,12 @@ MMC_UTILS_LDFLAGS       := $(VA38X_LDFLAGS) -O2
 
 MODULES += strace
 
-STRACE_SRCDIR                := $(TOPDIR)/src/strace
-STRACE_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
-STRACE_TARGET_PREFIX         :=
-STRACE_TARGET_CPPFLAGS       := -isystem $(stagingdir)/usr/include
-STRACE_TARGET_CFLAGS         := $(VA38X_CFLAGS) -O2
-STRACE_TARGET_LDFLAGS        := $(VA38X_LDFLAGS) -O2 \
-                                -L$(stagingdir)/lib \
-                                -Wl,-rpath-link,$(stagingdir)/lib
-STRACE_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
-                                $(call ifdef, \
-                                       STRACE_TARGET_CPPFLAGS, \
-                                       CPPFLAGS="$(STRACE_TARGET_CPPFLAGS)") \
-                                $(call ifdef, \
-                                       STRACE_TARGET_CFLAGS, \
-                                       CFLAGS="$(STRACE_TARGET_CFLAGS)") \
-                                $(call ifdef, \
-                                       STRACE_TARGET_LDFLAGS, \
-                                       LDFLAGS="$(STRACE_TARGET_LDFLAGS)") \
-                                --prefix=$(STRACE_TARGET_PREFIX) \
-                                --enable-stacktrace=yes \
-                                --enable-mpers=no \
-                                --with-libdw
-STRACE_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
-                                DESTDIR:=$(stagingdir)
-
 ################################################################################
-# libdb module
-#
-# Enable full error messaging support.
+# utils module
 ################################################################################
 
-LIBDB_TARGET_CONFIGURE_ARGS += --disable-stripped_messages
+UTILS_CONFIG_FILES   := $(CONFIGDIR)/utils.mk
+UTILS_DEFCONFIG_FILE := $(PLATFORMDIR)/va38x/utils_devel.defconfig
 
 ################################################################################
 # Final module
@@ -183,3 +170,10 @@ LIBDB_TARGET_CONFIGURE_ARGS += --disable-stripped_messages
 
 # Declare path to U-Boot compliant Flat Image Tree boot specification
 #VA38X_SNOR_ITS_PATH := $(PLATFORMDIR)/a38x_snor/a38x_snor.its
+
+################################################################################
+# Finally include tidor related global definitions
+# Keep this last as it depends on the above definitions !!
+################################################################################
+
+include $(PLATFORMDIR)/tidor/system.mk

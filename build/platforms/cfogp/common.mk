@@ -109,14 +109,40 @@ ELFUTILS_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
 # ethtool module
 ################################################################################
 
-ETHTOOL_TARGET_CFLAGS  := $(CFOGP_CFLAGS)
-ETHTOOL_TARGET_LDFLAGS := $(CFOGP_LDFLAGS)
+ETHTOOL_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+ETHTOOL_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                          -L$(stagingdir)/lib \
+                          -Wl,-rpath-link,$(stagingdir)/lib
 
 ################################################################################
 # IANA etc module
 ################################################################################
 
 MODULES += iana_etc
+
+################################################################################
+# iperf module
+################################################################################
+
+IPERF_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+IPERF_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                        -L$(stagingdir)/lib \
+                        -Wl,-rpath-link,$(stagingdir)/lib
+
+################################################################################
+# iproute2 module
+################################################################################
+
+IPROUTE2_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+IPROUTE2_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                           -L$(stagingdir)/lib \
+                           -Wl,-rpath-link,$(stagingdir)/lib
+
+################################################################################
+# root initRamFS module
+################################################################################
+
+MODULES += initramfs
 
 ################################################################################
 # kvstore module
@@ -154,6 +180,15 @@ MODULES += librt
 MODULES += libutil
 
 ################################################################################
+# libcap module
+################################################################################
+
+LIBCAP_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+LIBCAP_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                         -L$(stagingdir)/lib \
+                         -Wl,-rpath-link,$(stagingdir)/lib
+
+################################################################################
 # libdb module
 #
 # TODO: see $(PLATFORMDIR)/tidor/common.mk, module libdb
@@ -161,8 +196,10 @@ MODULES += libutil
 
 MODULES += libdb
 
-LIBDB_TARGET_CFLAGS  := $(CFOGP_CFLAGS)
-LIBDB_TARGET_LDFLAGS := $(CFOGP_LDFLAGS)
+LIBDB_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+LIBDB_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                        -L$(stagingdir)/lib \
+                        -Wl,-rpath-link,$(stagingdir)/lib
 
 ################################################################################
 # libmnl module
@@ -170,8 +207,19 @@ LIBDB_TARGET_LDFLAGS := $(CFOGP_LDFLAGS)
 
 MODULES += libmnl
 
-LIBMNL_TARGET_CFLAGS  := $(CFOGP_CFLAGS)
-LIBMNL_TARGET_LDFLAGS := $(CFOGP_LDFLAGS)
+LIBMNL_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+LIBMNL_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                         -L$(stagingdir)/lib \
+                         -Wl,-rpath-link,$(stagingdir)/lib
+
+################################################################################
+# libpcap module
+################################################################################
+
+LIBPCAP_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+LIBPCAP_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                          -L$(stagingdir)/lib \
+                          -Wl,-rpath-link,$(stagingdir)/lib
 
 ################################################################################
 # libtinfo (terminfo) module shipped with ncurses
@@ -201,7 +249,7 @@ MMC_UTILS_LDFLAGS := $(CFOGP_LDFLAGS)
 
 MODULES += mtd_utils
 
-MTD_UTILS_TARGET_CFLAGS  := $(CFOGP_CFLAGS)
+MTD_UTILS_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
 MTD_UTILS_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
                             -L$(stagingdir)/lib \
                             -Wl,-rpath-link,$(stagingdir)/lib
@@ -213,8 +261,19 @@ MTD_UTILS_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
 MODULES += ncurses
 
 NCURSES_TERMS          := linux,putty,vt100,xterm-mono
-NCURSES_TARGET_CFLAGS  := $(CFOGP_CFLAGS)
-NCURSES_TARGET_LDFLAGS := $(CFOGP_LDFLAGS)
+NCURSES_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+NCURSES_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                          -L$(stagingdir)/lib \
+                          -Wl,-rpath-link,$(stagingdir)/lib
+
+################################################################################
+# netperf module
+################################################################################
+
+NETPERF_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+NETPERF_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                          -L$(stagingdir)/lib \
+                          -Wl,-rpath-link,$(stagingdir)/lib
 
 ################################################################################
 # nlink module
@@ -249,10 +308,16 @@ NWIF_LDFLAGS := $(CFOGP_LDFLAGS)
 
 MODULES += readline
 
-READLINE_TARGET_CFLAGS  := $(CFOGP_CFLAGS)
+READLINE_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
 READLINE_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
                            -L$(stagingdir)/lib \
                            -Wl,-rpath-link,$(stagingdir)/lib
+
+################################################################################
+# root squashFS module
+################################################################################
+
+MODULES += root_squashfs
 
 ################################################################################
 # strace module
@@ -264,19 +329,10 @@ STRACE_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
                          -Wl,-rpath-link,$(stagingdir)/lib
 
 ################################################################################
-# rootfs module
+# TiDor rootfs module
 ################################################################################
 
 MODULES += tidor_rootfs
-
-################################################################################
-# root squashFS module
-################################################################################
-
-MODULES += tidor_squashfs
-
-# Disable compression and NFS export support.
-TIDOR_SQUASHFS_OPTS := -no-exports -noI -noD -noF -noX
 
 ################################################################################
 # tinit module

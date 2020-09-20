@@ -100,3 +100,10 @@ run e4defrag in a cron job
 run e2fsck with fs optim and badblock testing in maintenance mode / crontab
 run fstrim --minimum <erase block (group ?) size> /mntpt once a week
 support for online ext4 fsck using e2scrub with LVM snapshoting
+
+DNS:
+====
+
+unbound + knotd
+voir https://www.bortzmeyer.org/knot.pdf
+queryperf pour eval perf

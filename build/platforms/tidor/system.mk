@@ -107,6 +107,41 @@ ETHTOOL_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
 IANA_ETC_SRCDIR := $(TOPDIR)/src/iana_etc
 
 ################################################################################
+# root InitRamFS module
+################################################################################
+
+INITRAMFS_DEPENDS := tidor_rootfs
+
+################################################################################
+# iperf module
+################################################################################
+
+IPERF_SRCDIR                := $(TOPDIR)/src/iperf
+IPERF_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
+IPERF_TARGET_PREFIX         :=
+IPERF_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
+                               $(call ifdef, \
+                                      IPERF_TARGET_CFLAGS, \
+                                      CFLAGS="$(IPERF_TARGET_CFLAGS)") \
+                               $(call ifdef, \
+                                      IPERF_TARGET_LDFLAGS, \
+                                      LDFLAGS="$(IPERF_TARGET_LDFLAGS)") \
+                               --prefix="$(IPERF_TARGET_PREFIX)" \
+                               --without-sctp \
+                               --without-openssl
+IPERF_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
+                               DESTDIR:=$(stagingdir)
+
+################################################################################
+# iproute2 module
+################################################################################
+
+IPROUTE2_SRCDIR        := $(TOPDIR)/src/iproute2
+IPROUTE2_CROSS_COMPILE := $(XTCHAIN_CROSS_COMPILE)-
+IPROUTE2_TARGET_ARGS   := PATH="$(XTCHAIN_PATH)" \
+                          $(XTCHAIN_PKGCONF_ENV)
+
+################################################################################
 # kvstore module
 ################################################################################
 
@@ -114,6 +149,18 @@ KVSTORE_SRCDIR        := $(TOPDIR)/src/kvstore
 KVSTORE_EBUILDDIR     := $(TOPDIR)/src/ebuild
 KVSTORE_CROSS_COMPILE := $(XTCHAIN_CROSS_COMPILE)-
 KVSTORE_PKGCONF       := $(XTCHAIN_PKGCONF_ENV)
+
+################################################################################
+# libcap module
+################################################################################
+
+LIBCAP_SRCDIR           := $(TOPDIR)/src/libcap
+
+LIBCAP_CROSS_COMPILE    := $(XTCHAIN_CROSS_COMPILE)-
+LIBCAP_TARGET_MAKE_ARGS := PATH:="$(XTCHAIN_PATH)" \
+                           $(XTCHAIN_PKGCONF_ENV) \
+                           PAM_CAP:=no \
+                           GOLANG:=no
 
 ################################################################################
 # External glibc basic objects
@@ -190,6 +237,33 @@ LIBMNL_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
                                 --enable-static
 LIBMNL_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                 DESTDIR:=$(stagingdir)
+
+################################################################################
+# libpcap module
+################################################################################
+
+LIBPCAP_SRCDIR                := $(TOPDIR)/src/libpcap
+LIBPCAP_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
+LIBPCAP_TARGET_PREFIX         :=
+LIBPCAP_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
+                                 $(call ifdef, \
+                                        LIBPCAP_TARGET_CFLAGS, \
+                                        CFLAGS="$(LIBPCAP_TARGET_CFLAGS)") \
+                                 $(call ifdef, \
+                                        LIBPCAP_TARGET_LDFLAGS, \
+                                        LDFLAGS="$(LIBPCAP_TARGET_LDFLAGS)") \
+                                 --prefix="$(LIBPCAP_TARGET_PREFIX)" \
+                                 --disable-ipv6 \
+                                 --disable-remote \
+                                 --disable-universal \
+                                 --enable-shared \
+                                 --disable-usb \
+                                 --disable-bluetooth \
+                                 --disable-dbus \
+                                 --disable-rdma \
+                                 --without-libnl
+LIBPCAP_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
+                                 DESTDIR:=$(stagingdir)
 
 ################################################################################
 # linux kernel module
@@ -272,6 +346,37 @@ NCURSES_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                  DESTDIR:=$(stagingdir)
 
 ################################################################################
+# netperf module
+################################################################################
+
+NETPERF_SRCDIR                := $(TOPDIR)/src/netperf
+NETPERF_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
+NETPERF_TARGET_PREFIX         :=
+NETPERF_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
+                                 $(call ifdef, \
+                                        NETPERF_TARGET_CFLAGS, \
+                                        CFLAGS="$(NETPERF_TARGET_CFLAGS)") \
+                                $(call ifdef, \
+                                       NETPERF_TARGET_LDFLAGS, \
+                                       LDFLAGS="$(NETPERF_TARGET_LDFLAGS)") \
+                                --prefix="$(NETPERF_TARGET_PREFIX)" \
+                                --enable-unixdomain \
+                                --disable-dlpi \
+                                --disable-dccp \
+                                --enable-omni \
+                                --disable-xti \
+                                --disable-sdp \
+                                --disable-exs \
+                                --disable-sctp \
+                                --enable-intervals \
+                                --enable-spin \
+                                --enable-burst \
+                                --enable-cpuutil=procstat \
+                                ac_cv_func_setpgrp_void=yes
+NETPERF_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
+                                 DESTDIR:=$(stagingdir)
+
+################################################################################
 # nlink module
 ################################################################################
 
@@ -324,6 +429,13 @@ READLINE_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                   DESTDIR:=$(stagingdir)
 
 ################################################################################
+# root SquashFS module
+################################################################################
+
+ROOT_SQUASHFS_DEPENDS := tidor_rootfs
+ROOT_SQUASHFS_OPTS    := -no-exports -noI -noD -noF -noX
+
+################################################################################
 # strace module
 ################################################################################
 
@@ -349,16 +461,16 @@ STRACE_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                 DESTDIR:=$(stagingdir)
 
 ################################################################################
-# rootfs module
-################################################################################
-
-TIDOR_ROOTFS_SRCDIR := $(TOPDIR)/src/tidor_rootfs
-
-################################################################################
-# burner module
+# TiDor burner module
 ################################################################################
 
 TIDOR_BURNER_SRCDIR := $(TOPDIR)/src/tidor_burner
+
+################################################################################
+# TiDor rootfs module
+################################################################################
+
+TIDOR_ROOTFS_SRCDIR := $(TOPDIR)/src/tidor_rootfs
 
 ################################################################################
 # tinit module

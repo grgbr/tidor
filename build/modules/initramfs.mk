@@ -1,13 +1,16 @@
 include $(CRAFTERDIR)/core/module.mk
 
-$(call gen_module_depends,tidor_rootfs)
+# Interrupt processing if platform specified no dependencies.
+$(call dieon_undef_or_empty,INITRAMFS_DEPENDS)
+
+$(call gen_module_depends,$(INITRAMFS_DEPENDS))
 
 ################################################################################
 # This module help message
 ################################################################################
 
 define module_help
-Generate Clearfog Pro platform based initRamFS.
+Generate platform initRamFS.
 
 ::Bundled::
   $$(bundledir)/root.initramfs -- InitRamFS root file system
@@ -15,18 +18,15 @@ endef
 
 ################################################################################
 # Bundle logic
-#
-# Bundle the flash'able rescue image given the FUT specification generated at
-# build time.
 ################################################################################
 
-tidor_initramfs := $(bundledir)/root.initramfs
+initramfs_path := $(bundledir)/root.initramfs
 
-$(bundle_target): $(tidor_initramfs)
+$(bundle_target): $(initramfs_path)
 
 # Build initRamFS
-.PHONY: $(tidor_initramfs)
-$(tidor_initramfs):
+.PHONY: $(initramfs_path)
+$(initramfs_path):
 	@$(call log_action,GENRAMFS,$(@))
 	$(Q)$(CRAFTER_SCRIPTDIR)/geninitramfs.sh \
 		--fake $(bundle_fake_root_env) $(@) $(bundle_rootdir)
@@ -36,4 +36,4 @@ $(tidor_initramfs):
 ################################################################################
 
 drop:
-	$(Q)$(call rmf_cmd,$(tidor_initramfs))
+	$(Q)$(call rmf_cmd,$(initramfs_path)

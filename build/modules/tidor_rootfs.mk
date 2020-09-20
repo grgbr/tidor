@@ -13,7 +13,7 @@ endif
 # This module depends on all other ones except final tidor filesystem images
 # generation modules (and itself but gen_module_depends() is cyclic dependency
 # safe).
-$(call gen_module_depends,$(filter-out tidor_%,$(MODULES)))
+$(call gen_module_depends,$(filter-out initramfs root_squashfs,$(MODULES)))
 
 ################################################################################
 # This module help message
@@ -37,6 +37,7 @@ file  /etc/passwd                $(stagingdir)/etc/passwd                   644 
 file  /etc/shadow                $(stagingdir)/etc/shadow                   640 0 0
 file  /etc/group                 $(stagingdir)/etc/group                    644 0 0
 file  /etc/gshadow               $(stagingdir)/etc/gshadow                  640 0 0
+file  /etc/hosts                 $(TIDOR_ROOTFS_SRCDIR)/etc/hosts           644 0 0
 file  /etc/profile               $(TIDOR_ROOTFS_SRCDIR)/etc/profile         644 0 0
 file  /etc/nsswitch.conf         $(TIDOR_ROOTFS_SRCDIR)/etc/nsswitch.conf   644 0 0
 dir   /etc/init                                                             755 0 0

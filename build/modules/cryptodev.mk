@@ -19,9 +19,9 @@ cryptodev_make        := $(MAKE) -C $(module_builddir) $(cryptodev_target_args)
 
 # Staged / bundled components
 cryptodev_header := /usr/include/crypto/cryptodev.h
-linux_release    := \
+linux_release     = \
 	$(shell cat $(call builddir,linux)/include/config/kernel.release)
-cryptodev_module := /lib/modules/$(linux_release)/extra/cryptodev.ko
+cryptodev_module  = /lib/modules/$(linux_release)/extra/cryptodev.ko
 
 ################################################################################
 # This module help message

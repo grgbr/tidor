@@ -24,6 +24,14 @@ CLUI_CROSS_COMPILE := $(XTCHAIN_CROSS_COMPILE)-
 CLUI_PKGCONF       := $(XTCHAIN_PKGCONF_ENV)
 
 ################################################################################
+# cryptodev Linux kernel external module
+################################################################################
+
+CRYPTODEV_SRCDIR      := $(TOPDIR)/src/cryptodev-linux
+CRYPTODEV_TARGET_ARGS := PATH="$(XTCHAIN_PATH)" \
+                         CRYPTODEV_CFLAGS:="-DENABLE_ASYNC"
+
+################################################################################
 # e2fsprogs module
 ################################################################################
 
@@ -101,6 +109,27 @@ ETHTOOL_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                  DESTDIR:=$(stagingdir)
 
 ################################################################################
+# rng_tools module
+################################################################################
+
+HAVEGED_SRCDIR                := $(TOPDIR)/src/haveged
+HAVEGED_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
+HAVEGED_TARGET_PREFIX         :=
+HAVEGED_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
+                                 $(call ifdef, \
+                                        HAVEGED_TARGET_CFLAGS, \
+                                        CFLAGS="$(HAVEGED_TARGET_CFLAGS)") \
+                                 $(call ifdef, \
+                                        HAVEGED_TARGET_LDFLAGS, \
+                                        LDFLAGS="$(HAVEGED_TARGET_LDFLAGS)") \
+                                 --prefix="$(HAVEGED_TARGET_PREFIX)" \
+                                 --enable-daemon \
+                                 --enable-init=no \
+                                 --enable-tune=no
+HAVEGED_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
+                                 DESTDIR:=$(stagingdir)
+
+################################################################################
 # IANA etc module
 ################################################################################
 
@@ -127,8 +156,7 @@ IPERF_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
                                       IPERF_TARGET_LDFLAGS, \
                                       LDFLAGS="$(IPERF_TARGET_LDFLAGS)") \
                                --prefix="$(IPERF_TARGET_PREFIX)" \
-                               --without-sctp \
-                               --without-openssl
+                               --without-sctp
 IPERF_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                DESTDIR:=$(stagingdir)
 
@@ -393,6 +421,65 @@ NWIF_SRCDIR        := $(TOPDIR)/src/nwif
 NWIF_EBUILDDIR     := $(TOPDIR)/src/ebuild
 NWIF_CROSS_COMPILE := $(XTCHAIN_CROSS_COMPILE)-
 NWIF_PKGCONF       := $(XTCHAIN_PKGCONF_ENV)
+
+################################################################################
+# openssl module
+# TODO: see openssl/INSTALL:
+# --with-rand-seed
+################################################################################
+
+OPENSSL_SRCDIR                := $(TOPDIR)/src/openssl
+OPENSSL_CROSS_COMPILE         := $(XTCHAIN_CROSS_COMPILE)-
+OPENSSL_TARGET_CONFIGURE_ARGS := --release \
+                                 shared \
+                                 no-deprecated \
+                                 enable-devcryptoeng \
+                                 no-afalgeng \
+                                 no-md2 \
+                                 no-md4 \
+                                 no-rc2 \
+                                 no-rc4 \
+                                 no-rc5 \
+                                 no-des \
+                                 no-idea \
+                                 no-camellia \
+                                 no-aria \
+                                 no-cast \
+                                 no-bf \
+                                 no-capieng \
+                                 no-dh \
+                                 no-dsa \
+                                 no-dso \
+                                 no-dynamic-engine \
+                                 no-ec2m \
+                                 no-ec_nistp_64_gcc_128 \
+                                 no-egd \
+                                 no-mdc2 \
+                                 no-rmd160 \
+                                 no-psk \
+                                 no-sm2 \
+                                 no-sm3 \
+                                 no-sm4\
+                                 no-whirlpool \
+                                 no-srp \
+                                 no-ssl \
+                                 no-tls1 \
+                                 no-tls1_1 \
+                                 no-dtls1 \
+                                 no-ssl3-method \
+                                 no-tls1-method \
+                                 no-tls1_1-method \
+                                 no-dtls1-method \
+                                 no-filenames \
+                                 no-gost \
+                                 no-hw-padlock \
+                                 no-rdrand \
+                                 no-sse2 \
+                                 threads \
+                                 zlib \
+                                 linux-armv4 \
+                                 $(OPENSSL_TARGET_CFLAGS) \
+                                 $(OPENSSL_TARGET_LDFLAGS)
 
 ################################################################################
 # readline module

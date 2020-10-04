@@ -32,6 +32,18 @@ LIBNSS_NSSWITCH_CONF_PATH := $(PLATFORMDIR)/tidor/nsswitch.conf
 # Build logic
 ################################################################################
 
+define tidor_ssl_rootfs_spec
+dir   /etc/ssl                                                                755 0 0
+file  /etc/ssl/openssl.cnf        $(TIDOR_ROOTFS_SRCDIR)/etc/ssl/openssl.cnf  644 0 0
+dir   /etc/init/ssl                                                           755 0 0
+file  /etc/init/ssl/run           $(TIDOR_ROOTFS_SRCDIR)/etc/init/ssl/run     755 0 0
+slink /etc/init/ssl/supervise     /var/run/init/ssl                               0 0
+dir   /etc/init/ssl/log                                                       755 0 0
+file  /etc/init/ssl/log/run       $(TIDOR_ROOTFS_SRCDIR)/etc/init/ssl/log/run 755 0 0
+slink /etc/init/ssl/log/supervise /var/run/init/ssl/log                           0 0
+slink /etc/init/current/ssl       /etc/init/ssl                                   0 0
+endef
+
 define tidor_rootfs_spec
 file  /etc/passwd                $(stagingdir)/etc/passwd                   644 0 0
 file  /etc/shadow                $(stagingdir)/etc/shadow                   640 0 0
@@ -63,6 +75,7 @@ slink /etc/init/current/usb      /etc/init/usb                                  
 slink /etc/init/current/klog     /etc/init/klog                                 0 0
 slink /etc/init/current/syslog   /etc/init/syslog                               0 0
 slink /etc/init/current/nwif     /etc/init/nwif                                 0 0
+$(tidor_ssl_rootfs_spec)
 dir   /mnt                                                                  750 0 0
 dir   /mnt/config                                                           750 0 0
 endef

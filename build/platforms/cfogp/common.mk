@@ -86,6 +86,17 @@ CLUI_CFLAGS  := --sysroot=$(XTCHAIN_SYSROOT) $(CFOGP_CFLAGS)
 CLUI_LDFLAGS := $(CFOGP_LDFLAGS)
 
 ################################################################################
+# cryptodev Linux kernel external module
+################################################################################
+
+MODULES += cryptodev
+
+CRYPTODEV_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+CRYPTODEV_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                           -L$(stagingdir)/lib \
+                           -Wl,-rpath-link,$(stagingdir)/lib
+
+################################################################################
 # e2fsprogs module
 ################################################################################
 
@@ -111,6 +122,20 @@ ELFUTILS_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
 
 ETHTOOL_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
 ETHTOOL_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                          -L$(stagingdir)/lib \
+                          -Wl,-rpath-link,$(stagingdir)/lib
+
+################################################################################
+# rng_tools module
+################################################################################
+
+MODULES += haveged
+
+HAVEGED_TARGET_CFLAGS  := $(CFOGP_CFLAGS) \
+                          -I$(stagingdir)/usr/include \
+                          -DGENERIC_DCACHE=32 \
+                          -DGENERIC_ICACHE=32
+HAVEGED_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
                           -L$(stagingdir)/lib \
                           -Wl,-rpath-link,$(stagingdir)/lib
 
@@ -292,6 +317,17 @@ MODULES += nwif
 
 NWIF_CFLAGS  := --sysroot=$(XTCHAIN_SYSROOT) $(CFOGP_CFLAGS)
 NWIF_LDFLAGS := $(CFOGP_LDFLAGS)
+
+################################################################################
+# openssl module
+################################################################################
+
+MODULES += openssl
+
+OPENSSL_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+OPENSSL_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                          -L$(stagingdir)/lib \
+                          -Wl,-rpath-link,$(stagingdir)/lib
 
 ################################################################################
 # readline module

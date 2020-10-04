@@ -75,6 +75,12 @@ clui:
         uri:       git@github.com:grgbr/clui.git
         destdir:   src/clui
 
+cryptodev:
+        type:      git
+        uri:       git@github.com:cryptodev-linux/cryptodev-linux.git
+        revision:  cryptodev-linux-1.11 
+        destdir:   src/cryptodev
+
 crafter:
         type:      git
         uri:       git@github.com:grgbr/crafter.git
@@ -104,6 +110,13 @@ ethtool:
         origin:    github
         branch:    cross-v5.4
         destdir:   src/ethtool
+
+haveged:
+        type:      git
+        uri:       git@github.com:grgbr/haveged.git
+        origin:    github
+        branch:    cross-v1.9.13
+        destdir:   src/haveged
 
 iana_etc:
         type:      git
@@ -193,6 +206,13 @@ nwif:
         type:      git
         uri:       git@github.com:grgbr/nwif.git
         destdir:   src/nwif
+
+openssl:
+        type:      git
+        uri:       git@github.com:grgbr/openssl.git
+        origin:    github
+        branch:    cross-OpenSSL_1_1_1h
+        destdir:   src/openssl
 
 readline:
         type:      git

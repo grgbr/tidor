@@ -1,6 +1,8 @@
 include $(CRAFTERDIR)/core/module.mk
 include $(CRAFTERDIR)/core/autotools.mk
 
+$(call gen_module_depends,$(filter openssl,$(MODULES)))
+
 # Interrupt processing if platform specified no source tree.
 $(call dieon_undef_or_empty,IPERF_SRCDIR)
 # Interrupt processing if platform specified no autotools environment.

@@ -179,6 +179,12 @@ linux:
         branch:  linux-5.4.y
         destdir: src/linux
 
+lmdb:
+        type:      git
+        uri:       https://github.com/LMDB/lmdb.git
+        revision:  LMDB_0.9.24
+        destdir:   src/lmdb
+
 mmc_utils:
         type:    git
         uri:     git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git

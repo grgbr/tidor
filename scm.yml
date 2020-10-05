@@ -166,6 +166,13 @@ libpcap:
         revision:  libpcap-1.9.1
         destdir:   src/libpcap
 
+libuv:
+        type:      git
+        uri:       git@github.com:grgbr/libuv.git
+        origin:    github
+        branch:    cross-v1.40.0
+        destdir:   src/libuv
+
 linux:
         type:    git
         uri:     git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git

@@ -294,6 +294,24 @@ LIBPCAP_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                  DESTDIR:=$(stagingdir)
 
 ################################################################################
+# libuv module
+################################################################################
+
+LIBUV_SRCDIR                := $(TOPDIR)/src/libuv
+LIBUV_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
+LIBUV_TARGET_PREFIX         :=
+LIBUV_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
+                               $(call ifdef, \
+                                      LIBUV_TARGET_CFLAGS, \
+                                      CFLAGS="$(LIBUV_TARGET_CFLAGS)") \
+                               $(call ifdef, \
+                                      LIBUV_TARGET_LDFLAGS, \
+                                      LDFLAGS="$(LIBUV_TARGET_LDFLAGS)") \
+                               --prefix="$(LIBUV_TARGET_PREFIX)"
+LIBUV_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
+                               DESTDIR:=$(stagingdir)
+
+################################################################################
 # linux kernel module
 ################################################################################
 

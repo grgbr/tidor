@@ -252,6 +252,18 @@ LIBPCAP_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
 
 MODULES += libtinfo
 
+
+################################################################################
+# libuv module
+################################################################################
+
+MODULES += libuv
+
+LIBUV_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+LIBUV_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                        -L$(stagingdir)/lib \
+                        -Wl,-rpath-link,$(stagingdir)/lib
+
 ################################################################################
 # linux kernel module
 ################################################################################

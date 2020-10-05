@@ -25,7 +25,7 @@ mmc_utils_bundle_bindir := $(bundle_rootdir)/bin
 ################################################################################
 
 define mmc_utils_align_help
-$(subst $(space),$(newline)                              ,$(1))
+$(subst $(space),$(newline)                              ,$(strip $(1)))
 endef
 
 define module_help

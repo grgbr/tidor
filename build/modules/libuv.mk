@@ -137,7 +137,7 @@ define libuv_drop
 $(foreach l, \
           $(libuv_libs), \
           $(Q)$(call drop_cmd, \
-                     $(libuv_bundle_slibuvir)/$(l))$(newline))
+                     $(libuv_bundle_libdir)/$(l))$(newline))
 endef
 
 $(call autotools_gen_drop_rule,libuv_drop)

@@ -227,6 +227,17 @@ LIBDB_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
                         -Wl,-rpath-link,$(stagingdir)/lib
 
 ################################################################################
+# libmaxminddb module
+################################################################################
+
+MODULES += libmaxminddb
+
+LIBMAXMINDDB_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+LIBMAXMINDDB_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                               -L$(stagingdir)/lib \
+                               -Wl,-rpath-link,$(stagingdir)/lib
+
+################################################################################
 # libmnl module
 ################################################################################
 

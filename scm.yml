@@ -153,6 +153,13 @@ libdb:
         revision:  v5.3.28
         destdir:   src/libdb
 
+libmaxminddb:
+        type:      git
+        uri:       git@github.com:grgbr/libmaxminddb.git
+        origin:    github
+        branch:    cross-1.4.3
+        destdir:   src/libmaxminddb
+
 libmnl:
         type:      git
         uri:       git@github.com:grgbr/libmnl.git

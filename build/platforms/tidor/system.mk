@@ -248,6 +248,26 @@ LIBDB_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                DESTDIR:=$(stagingdir)
 
 ################################################################################
+# libmaxminddb module
+################################################################################
+
+LIBMAXMINDDB_SRCDIR                := $(TOPDIR)/src/libmaxminddb
+LIBMAXMINDDB_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
+LIBMAXMINDDB_TARGET_PREFIX         := /
+LIBMAXMINDDB_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
+                                      $(call ifdef, \
+                                             LIBMAXMINDDB_TARGET_CFLAGS, \
+                                             CFLAGS="$(LIBMAXMINDDB_TARGET_CFLAGS)") \
+                                      $(call ifdef, \
+                                             LIBMAXMINDDB_TARGET_LDFLAGS, \
+                                             LDFLAGS="$(LIBMAXMINDDB_TARGET_LDFLAGS)") \
+                                      --prefix="$(LIBMAXMINDDB_TARGET_PREFIX)" \
+                                      --enable-binaries \
+                                      --disable-tests
+LIBMAXMINDDB_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
+                                      DESTDIR:=$(stagingdir)
+
+################################################################################
 # libmnl module
 ################################################################################
 

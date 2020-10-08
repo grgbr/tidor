@@ -314,6 +314,27 @@ LIBPCAP_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                  DESTDIR:=$(stagingdir)
 
 ################################################################################
+# libunistring module
+################################################################################
+
+LIBUNISTRING_SRCDIR                := $(TOPDIR)/src/libunistring
+LIBUNISTRING_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
+LIBUNISTRING_TARGET_PREFIX         :=
+LIBUNISTRING_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
+                                      $(call ifdef, \
+                                             LIBUNISTRING_TARGET_CFLAGS, \
+                                             CFLAGS="$(LIBUNISTRING_TARGET_CFLAGS)") \
+                                      $(call ifdef, \
+                                             LIBUNISTRING_TARGET_LDFLAGS, \
+                                             LDFLAGS="$(LIBUNISTRING_TARGET_LDFLAGS)") \
+                                      --prefix="$(LIBUNISTRING_TARGET_PREFIX)" \
+                                      --enable-threads \
+                                      --enable-shared \
+                                      --enable-static
+LIBUNISTRING_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
+                                      DESTDIR:=$(stagingdir)
+
+################################################################################
 # libuv module
 ################################################################################
 

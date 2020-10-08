@@ -263,6 +263,16 @@ LIBPCAP_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
 
 MODULES += libtinfo
 
+################################################################################
+# libunistring module
+################################################################################
+
+MODULES += libunistring
+
+LIBUNISTRING_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+LIBUNISTRING_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                               -L$(stagingdir)/lib \
+                               -Wl,-rpath-link,$(stagingdir)/lib
 
 ################################################################################
 # libuv module

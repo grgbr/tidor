@@ -173,6 +173,13 @@ libpcap:
         revision:  libpcap-1.9.1
         destdir:   src/libpcap
 
+libunistring:
+        type:      git
+        uri:       git@github.com:grgbr/libunistring.git
+        origin:    github
+        branch:    dist-v0.9.10
+        destdir:   src/libunistring
+
 libuv:
         type:      git
         uri:       git@github.com:grgbr/libuv.git

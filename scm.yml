@@ -153,6 +153,13 @@ libdb:
         revision:  v5.3.28
         destdir:   src/libdb
 
+libidn2:
+        type:      git
+        uri:       git@github.com:grgbr/libidn2.git
+        origin:    github
+        branch:    dist-2.3.0
+        destdir:   src/libidn2
+
 libmaxminddb:
         type:      git
         uri:       git@github.com:grgbr/libmaxminddb.git

@@ -227,6 +227,17 @@ LIBDB_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
                         -Wl,-rpath-link,$(stagingdir)/lib
 
 ################################################################################
+# libidn2 module
+################################################################################
+
+MODULES += libidn2
+
+LIBIDN2_TARGET_CFLAGS  := $(CFOGP_CFLAGS) -I$(stagingdir)/usr/include
+LIBIDN2_TARGET_LDFLAGS := $(CFOGP_LDFLAGS) \
+                          -L$(stagingdir)/lib \
+                          -Wl,-rpath-link,$(stagingdir)/lib
+
+################################################################################
 # libmaxminddb module
 ################################################################################
 

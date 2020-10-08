@@ -248,6 +248,28 @@ LIBDB_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
                                DESTDIR:=$(stagingdir)
 
 ################################################################################
+# libidn2 module
+################################################################################
+
+LIBIDN2_SRCDIR                := $(TOPDIR)/src/libidn2
+LIBIDN2_AUTOTOOLS_ENV         := $(XTCHAIN_AUTOTOOLS_ENV)
+LIBIDN2_TARGET_PREFIX         :=
+LIBIDN2_TARGET_CONFIGURE_ARGS := $(XTCHAIN_AUTOTOOLS_TARGET_CONFIGURE_ARGS) \
+                                 $(call ifdef, \
+                                        LIBIDN2_TARGET_CFLAGS, \
+                                        CFLAGS="$(LIBIDN2_TARGET_CFLAGS)") \
+                                 $(call ifdef, \
+                                        LIBIDN2_TARGET_LDFLAGS, \
+                                        LDFLAGS="$(LIBIDN2_TARGET_LDFLAGS)") \
+                                 --prefix="$(LIBIDN2_TARGET_PREFIX)" \
+                                 --enable-shared \
+                                 --enable-static \
+                                 --disable-gtk-doc \
+                                 --disable-nls
+LIBIDN2_TARGET_MAKE_ARGS      := $(XTCHAIN_AUTOTOOLS_TARGET_MAKE_ARGS) \
+                                 DESTDIR:=$(stagingdir)
+
+################################################################################
 # libmaxminddb module
 ################################################################################
 

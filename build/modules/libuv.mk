@@ -136,8 +136,9 @@ $(call autotools_gen_bundle_rule,libuv_bundle)
 define libuv_drop
 $(foreach l, \
           $(libuv_libs), \
-          $(Q)$(call drop_cmd, \
-                     $(libuv_bundle_libdir)/$(l))$(newline))
+          $(Q)$(call drop_lib_cmd, \
+                     $(libuv_staging_libdir)/$(l), \
+                     $(libuv_bundle_libdir))$(newline))
 endef
 
 $(call autotools_gen_drop_rule,libuv_drop)
